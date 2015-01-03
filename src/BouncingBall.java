@@ -64,7 +64,7 @@ public class BouncingBall{
     
     public void addBall(Group root, Scene ballScene, CirclePhysics mainBall, int size){
         
-        if(ballCount<5){
+        if(ballCount<=8){
             Circle newBall = new Circle(size);
             newBall.setFill(Color.rgb((int)(256*Math.random()),(int)(256* Math.random()),(int)(256*Math.random())));
             

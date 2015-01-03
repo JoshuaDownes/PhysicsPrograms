@@ -82,8 +82,6 @@ public abstract class ObjectPhysics {
     //Abstract methods
     abstract void update();
     
-    abstract boolean collisionXRange(ObjectPhysics object);
-    
     //Getters and setters
     public void setCollisionController(CollisionController collisionController){
         this.collisionController = collisionController;

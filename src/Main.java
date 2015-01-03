@@ -46,9 +46,10 @@ public class Main extends Application{
             Scene ballScene = new Scene(root, 700, 500);
             BouncingBall eBall = new BouncingBall(root, ballScene);
             sceneOptions(root, eBall.getCurrentAnimation(), new Text("Click on the ball to drag it around\n"
-                    + "Collisions are elastic\nIf it is moving too fast, press R to reset."));
+                    + "Collisions are elastic\nIf it is moving too fast, press R to reset.\n\nSimulation"
+                    + " of conservation of momentum for elastic collisions"));
             eBall.setOptions(options);
-            primaryStage.setTitle("Elastic Ball");
+            primaryStage.setTitle("Elastic Ball(s)");
             primaryStage.setScene(ballScene);
             primaryStage.show();
             
