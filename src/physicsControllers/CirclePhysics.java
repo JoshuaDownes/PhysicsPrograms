@@ -50,7 +50,6 @@ public class CirclePhysics extends ObjectPhysics{
     public void checkCollisions(){
         checkFloorCollisions();
         checkWallCollisions();
-        checkObjectCollisions();
     }
     
     public void checkFloorCollisions(){
@@ -79,30 +78,26 @@ public class CirclePhysics extends ObjectPhysics{
         }
     }
     
-    public void checkObjectCollisions(){
-        //Not done yet
-    }
-    
     public void circleController(Scene scene){
-        scene.setOnMousePressed(c ->{
+        circle.setOnMousePressed(c ->{
             beingDragged = true;
             setDy(0);
             setDx(0);
             setX(c.getX());
             setY(c.getY());
         });
-        scene.setOnMouseDragged(e ->{
+        circle.setOnMouseDragged(e ->{
             beingDragged = true;
             setDy(0);
             setDx(0);
             setX(e.getX());
             setY(e.getY());
         });
-        scene.setOnMouseReleased(r ->{
+        circle.setOnMouseReleased(r ->{
             beingDragged = false;
             int l = dragValues.length;
-            setDx((dragValues[l-1][0]-dragValues[0][0])/(dt/4));
-            setDy((dragValues[l-1][1]-dragValues[0][1])/(dt/4));
+            setDx((dragValues[l-1][0]-dragValues[0][0])/(dt/l));
+            setDy((dragValues[l-1][1]-dragValues[0][1])/(dt/l));
 
         });
     }
