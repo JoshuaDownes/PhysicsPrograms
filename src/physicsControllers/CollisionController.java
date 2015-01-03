@@ -70,17 +70,33 @@ public class CollisionController {
     
     
     public void adjustVelocities(ObjectPhysics obj1, ObjectPhysics obj2){
+        //if objects == circles
         
-        //Adjusts velocities with formulae derived from conservation of energy and momentum equations
-        double m1 = obj1.getMass(), m2 = obj2.getMass();
-        double v1y = obj1.getDy(), v2y = obj2.getDy();
-        double v1x = obj1.getDx(), v2x = obj2.getDx();
+        //First we place the circles outside of each other
+        double dist = Math.sqrt(Math.pow((obj1.getY() - obj2.getY()), 2) + Math.pow((obj1.getX() - obj2.getX()), 2));
+        double midpointx = (obj1.getX() + obj2.getX())/2;
+        double midpointy = (obj1.getY() + obj2.getY())/2;
         
-        obj1.setDy(((m1-m2)*v1y + 2*m2*v2y)/(m1+m2));
-        obj1.setDx(((m1-m2)*v1x + 2*m2*v2x)/(m1+m2));
+        obj1.setX(midpointx + obj1.getHeight()/2 * (obj1.getX()-obj2.getX())/dist);
+        obj1.setY(midpointy + obj1.getHeight()/2 * (obj1.getY()-obj2.getY())/dist);
+        obj2.setX(midpointx + obj2.getHeight()/2 * (obj2.getX()-obj1.getX())/dist);
+        obj2.setY(midpointy + obj2.getHeight()/2 * (obj2.getY()-obj1.getY())/dist);
         
-        obj2.setDy((2*m1*v1y - (m1-m2)*v2y)/(m1+m2));
-        obj2.setDx((2*m1*v1x - (m1-m2)*v2y)/(m1+m2));
+        //Next, adjusts velocities with formulae derived from conservation of energy and momentum equations
+        dist = Math.sqrt(Math.pow((obj1.getY() - obj2.getY()), 2) + Math.pow((obj1.getX() - obj2.getX()), 2)); //Recalculate distance 
+        
+        double normalX = (obj2.getX() - obj1.getX())/dist;
+        double normalY = (obj2.getY() - obj1.getY())/dist;
+        
+        double p = 2 * (obj1.getDx()*normalX + obj1.getDy()*normalY - obj2.getDx()*normalX - obj2.getDy()*normalY) 
+                / (obj1.getMass() + obj2.getMass());
+        
+        obj1.setDx(obj1.getDx() - p*obj2.getMass() * normalX);
+        obj1.setDy(obj1.getDy() - p*obj2.getMass() * normalY);
+        
+        obj2.setDx(obj2.getDx() + p*obj1.getMass() * normalX);
+        obj2.setDy(obj2.getDy() + p*obj1.getMass() * normalY);
+       
     }
     
 }

@@ -72,7 +72,7 @@ public class BouncingBall{
             newBall.setCenterX(ballScene.getWidth()/2+15*ballCount);
             newBall.setCenterY(ballScene.getHeight()/2+15*ballCount);
             
-            CirclePhysics newBouncing = new CirclePhysics(newBall, ballScene, newBall.getRadius(), (double)size/30, mainBall.getTimeline());
+            CirclePhysics newBouncing = new CirclePhysics(newBall, ballScene, newBall.getRadius(), (double)size*size/900, mainBall.getTimeline());
             
             collisionObjects.add(newBouncing);
             
