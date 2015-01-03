@@ -4,6 +4,7 @@ package physicsControllers;
 import javafx.event.ActionEvent;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TimelineBuilder;
 import javafx.scene.Scene;
 import javafx.scene.shape.Shape;
@@ -12,6 +13,8 @@ import javafx.util.Duration;
 public abstract class ObjectPhysics {
     private Shape shape;
     private double x, y, dx, dy, t;
+    
+    private Timeline animation;
      
     protected Scene scene;
     protected final double gravity = (9.8/30), dt = 33;  //30 frames per second
@@ -24,11 +27,17 @@ public abstract class ObjectPhysics {
     }
     
     public void startTimeline() {
-        TimelineBuilder.create().cycleCount(Animation.INDEFINITE)
+        animation = TimelineBuilder.create().cycleCount(Animation.INDEFINITE)
                 .keyFrames(new KeyFrame(Duration.millis(dt), (ActionEvent event) -> {
                     update();
                     setT(getT()+dt);
-        })).build().play();
+        })).build();
+        
+        animation.play();
+    }
+    
+    public Animation getAnimation(){
+        return animation;
     }
     
     abstract void update();

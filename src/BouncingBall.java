@@ -1,5 +1,6 @@
 
 
+import javafx.animation.Animation;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -7,31 +8,28 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import physicsControllers.CirclePhysics;
 
-public class BouncingBall extends Application {
+public class BouncingBall{
     
-    private Group root = new Group();
+    private Group root;
+    private Scene ballScene;
+    private Animation currentAnimation;
     
-    @Override
-    public void start(Stage primaryStage){
+    public BouncingBall(Group root, Scene ballScene){
+       
+        this.root = root;
+        this.ballScene = ballScene;
         
         Circle ball = new Circle(30);
         root.getChildren().add(ball);
-        ball.setCenterX(250);
+        ball.setCenterX(ballScene.getWidth()/2);
         ball.setCenterY(150);
         
-        Scene ballScene = new Scene(root, 500, 350);
-        
-        new CirclePhysics(ball, ballScene);
-        
-        primaryStage.setTitle("Bouncing Ball");
-        primaryStage.setScene(ballScene);
-        primaryStage.show();
-        
+        CirclePhysics bouncing = new CirclePhysics(ball, ballScene);
+        currentAnimation = bouncing.getAnimation();
     }
     
-    public static void main(String[] args){
-        launch(args);
+    public Animation getCurrentAnimation(){
+        return currentAnimation;
     }
-    
     
 }

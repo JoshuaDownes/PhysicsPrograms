@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.shape.Circle;
@@ -79,26 +80,34 @@ public class CirclePhysics extends ObjectPhysics{
     }
     
     public void circleController(Scene scene){
-        circle.setOnMousePressed(c ->{
+        circle.setOnMousePressed(pressed ->{
             beingDragged = true;
             setDy(0);
             setDx(0);
-            setX(c.getX());
-            setY(c.getY());
+            setX(pressed.getX());
+            setY(pressed.getY());
         });
-        circle.setOnMouseDragged(e ->{
+        circle.setOnMouseDragged(draggingMouse ->{
             beingDragged = true;
             setDy(0);
             setDx(0);
-            setX(e.getX());
-            setY(e.getY());
+            setX(draggingMouse.getX());
+            setY(draggingMouse.getY());
         });
-        circle.setOnMouseReleased(r ->{
+        circle.setOnMouseReleased(released ->{
             beingDragged = false;
             int l = dragValues.length;
             setDx((dragValues[l-1][0]-dragValues[0][0])/(dt/l));
             setDy((dragValues[l-1][1]-dragValues[0][1])/(dt/l));
-
         });
+        scene.setOnKeyPressed(keyPressed ->{
+            if(keyPressed.getCode()==KeyCode.R){
+                setDx(0);
+                setDy(0);
+                setX(scene.getWidth()/2);
+                setY(150);
+            }
+        });
+        
     }
 }
