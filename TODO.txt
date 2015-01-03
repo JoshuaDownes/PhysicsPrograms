@@ -1,0 +1,5 @@
+- Fix 'R' button ball reset glitch
+
+- Clean up text and change info text
+
+- Edit README
