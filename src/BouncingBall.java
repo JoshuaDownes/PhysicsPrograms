@@ -1,5 +1,6 @@
 
 
+import java.util.ArrayList;
 import javafx.animation.Animation;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -11,13 +12,17 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import physicsControllers.CirclePhysics;
 import javafx.scene.paint.Color;
+import physicsControllers.CollisionController;
+import physicsControllers.ObjectPhysics;
 
 public class BouncingBall{
     
     private Group root;
     private Scene ballScene;
     private Animation currentAnimation;
-    
+        
+    private ArrayList<ObjectPhysics> collisionObjects = new ArrayList<ObjectPhysics>();
+    private CollisionController collisionController;
     private int ballCount = 1;
     private CirclePhysics bouncing;
     
@@ -31,7 +36,10 @@ public class BouncingBall{
         ball.setCenterX(ballScene.getWidth()/2);
         ball.setCenterY(ballScene.getHeight()/2);
         
-        bouncing = new CirclePhysics(ball, ballScene, ball.getRadius());
+        bouncing = new CirclePhysics(ball, ballScene, ball.getRadius(), 1);
+        collisionObjects.add(bouncing);
+        collisionController= new CollisionController(collisionObjects, ballScene);
+        bouncing.setCollisionController(collisionController);
         currentAnimation = bouncing.getTimeline();
     }
     
@@ -59,17 +67,17 @@ public class BouncingBall{
         if(ballCount<5){
             Circle newBall = new Circle(size);
             newBall.setFill(Color.rgb((int)(256*Math.random()),(int)(256* Math.random()),(int)(256*Math.random())));
-
+            
             root.getChildren().add(newBall);
             newBall.setCenterX(ballScene.getWidth()/2+15*ballCount);
             newBall.setCenterY(ballScene.getHeight()/2+15*ballCount);
             
-            CirclePhysics newBouncing = new CirclePhysics(newBall, ballScene, newBall.getRadius(), mainBall.getTimeline());
+            CirclePhysics newBouncing = new CirclePhysics(newBall, ballScene, newBall.getRadius(), (double)size/30, mainBall.getTimeline());
+            
+            collisionObjects.add(newBouncing);
+            
             ballCount++;
-            
-            
-            
-            
+
         }
     }
 

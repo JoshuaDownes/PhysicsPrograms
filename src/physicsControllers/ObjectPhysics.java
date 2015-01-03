@@ -1,6 +1,7 @@
 
 package physicsControllers;
 
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -14,22 +15,31 @@ public abstract class ObjectPhysics {
     private Shape shape;
     private double x, y, dx, dy, t;
     private double height, width;
+    private double mass;
     
     protected Timeline timeline;
+
+    private CollisionController collisionController;
      
     protected Scene scene;
     protected final double gravity = (9.8/30), dt = 33;  //30 frames per second
    
     
-    public ObjectPhysics(Shape shape, Scene scene, double height, double width){
+    public ObjectPhysics(Shape shape, Scene scene, double height, double width, double mass){
         this.shape = shape;
         this.scene = scene;
+        this.height = height;
+        this.width = width;
+        this.mass = mass;
         startTimeline();
     }
     
-    public ObjectPhysics(Shape shape, Scene scene, double height, double width, Timeline mainTimeline){
+    public ObjectPhysics(Shape shape, Scene scene, double height, double width, double mass, Timeline mainTimeline){
         this.shape = shape;
         this.scene = scene;
+        this.height = height;
+        this.width = width;
+        this.mass = mass;
         startTimeline(mainTimeline);
     }
     
@@ -38,6 +48,7 @@ public abstract class ObjectPhysics {
                 .keyFrames(new KeyFrame(Duration.millis(dt), (ActionEvent event) -> {
                     update();
                     setT(getT()+dt);
+                    collisionController.checkCollisions();
         })).build();
         
         timeline.play();
@@ -67,7 +78,16 @@ public abstract class ObjectPhysics {
         return timeline;
     }
     
+    
+    //Abstract methods
     abstract void update();
+    
+    abstract boolean collisionXRange(ObjectPhysics object);
+    
+    //Getters and setters
+    public void setCollisionController(CollisionController collisionController){
+        this.collisionController = collisionController;
+    }
     
     public void setX(double x){
         this.x=x;
@@ -89,6 +109,10 @@ public abstract class ObjectPhysics {
         this.t=t;
     }
     
+    public void setMass(double mass){
+        this.mass = mass;
+    }
+    
     public double getX(){
         return x;
     }
@@ -107,5 +131,17 @@ public abstract class ObjectPhysics {
     
     public double getT(){
         return t;
+    }
+    
+    public double getHeight(){
+        return height;
+    }
+    
+    public double getWidth(){
+        return width;
+    }
+    
+    public double getMass(){
+        return mass;
     }
 }

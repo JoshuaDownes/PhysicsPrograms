@@ -18,16 +18,16 @@ public class CirclePhysics extends ObjectPhysics{
     private boolean beingDragged = false;
     private double[][] dragValues = new double[4][2];
     
-    public CirclePhysics(Circle circle, Scene scene, double radius){
-        super(circle, scene, radius, radius);
+    public CirclePhysics(Circle circle, Scene scene, double radius, double mass){
+        super(circle, scene, radius*2, radius*2, mass);
         this.circle = circle;
         setY(circle.getCenterY());
         setX(circle.getCenterX());
         circleController(scene);
     }
     
-    public CirclePhysics(Circle circle, Scene scene, double radius, Timeline mainTimeline){
-        super(circle, scene, radius, radius, mainTimeline);
+    public CirclePhysics(Circle circle, Scene scene, double radius, double mass, Timeline mainTimeline){
+        super(circle, scene, radius*2, radius*2, mass, mainTimeline);
         this.circle = circle;
         setY(circle.getCenterY());
         setX(circle.getCenterX());
@@ -56,6 +56,24 @@ public class CirclePhysics extends ObjectPhysics{
         checkCollisions();
         
     }
+    
+    public boolean collisionXRange(ObjectPhysics object){
+        //if object == circle
+        return collisionXRange((CirclePhysics)object);
+    }
+    
+    public boolean collisionXRange(CirclePhysics circle){ // Return the width from center which results in collision if an object is within Y range to collide
+        //Collision detection between two circles
+        //Step 1: Find lowest possible value for collision between two circles, i.e. radius 1 + radius 2
+        double limitBetween = getHeight()/2 + circle.getHeight()/2; //radii
+        
+        //Step 2: check distance between arcs. Are they closer?
+        double distanceBetween = Math.sqrt(Math.pow((getX()-circle.getX()),2)+Math.pow((getY()-circle.getY()),2));
+        
+        return distanceBetween < limitBetween;
+    }
+    
+    
     
     public void checkCollisions(){
         checkFloorCollisions();
