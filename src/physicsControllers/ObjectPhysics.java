@@ -13,31 +13,58 @@ import javafx.util.Duration;
 public abstract class ObjectPhysics {
     private Shape shape;
     private double x, y, dx, dy, t;
+    private double height, width;
     
-    private Timeline animation;
+    protected Timeline timeline;
      
     protected Scene scene;
     protected final double gravity = (9.8/30), dt = 33;  //30 frames per second
    
     
-    public ObjectPhysics(Shape shape, Scene scene){
+    public ObjectPhysics(Shape shape, Scene scene, double height, double width){
         this.shape = shape;
         this.scene = scene;
         startTimeline();
     }
     
+    public ObjectPhysics(Shape shape, Scene scene, double height, double width, Timeline mainTimeline){
+        this.shape = shape;
+        this.scene = scene;
+        startTimeline(mainTimeline);
+    }
+    
     public void startTimeline() {
-        animation = TimelineBuilder.create().cycleCount(Animation.INDEFINITE)
+        timeline = TimelineBuilder.create().cycleCount(Animation.INDEFINITE)
                 .keyFrames(new KeyFrame(Duration.millis(dt), (ActionEvent event) -> {
                     update();
                     setT(getT()+dt);
         })).build();
         
-        animation.play();
+        timeline.play();
     }
     
-    public Animation getAnimation(){
-        return animation;
+    
+    //Overloads startTimeLine method, attaches timeline for additional balls
+    //to original ball so that all timelines stop together
+    public void startTimeline(Timeline mainTimeLine){
+        timeline = TimelineBuilder.create().cycleCount(Animation.INDEFINITE)
+                .keyFrames(new KeyFrame(Duration.millis(dt), (ActionEvent event) -> {
+                    update();
+                    setT(getT()+dt);
+                    if(mainTimeLine.getStatus()==Animation.Status.STOPPED){
+                        timeline.stop();
+                    }
+                    if(mainTimeLine.getStatus()==Animation.Status.PAUSED){
+                        timeline.pause();
+                    }
+                    else timeline.play();
+        })).build();
+        
+        timeline.play();
+    }
+    
+    public Timeline getTimeline(){
+        return timeline;
     }
     
     abstract void update();

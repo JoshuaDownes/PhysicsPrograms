@@ -1,6 +1,7 @@
 
 package physicsControllers;
 
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.ClipboardContent;
@@ -17,8 +18,16 @@ public class CirclePhysics extends ObjectPhysics{
     private boolean beingDragged = false;
     private double[][] dragValues = new double[4][2];
     
-    public CirclePhysics(Circle circle, Scene scene){
-        super(circle, scene);
+    public CirclePhysics(Circle circle, Scene scene, double radius){
+        super(circle, scene, radius, radius);
+        this.circle = circle;
+        setY(circle.getCenterY());
+        setX(circle.getCenterX());
+        circleController(scene);
+    }
+    
+    public CirclePhysics(Circle circle, Scene scene, double radius, Timeline mainTimeline){
+        super(circle, scene, radius, radius, mainTimeline);
         this.circle = circle;
         setY(circle.getCenterY());
         setX(circle.getCenterX());
@@ -105,7 +114,7 @@ public class CirclePhysics extends ObjectPhysics{
                 setDx(0);
                 setDy(0);
                 setX(scene.getWidth()/2);
-                setY(150);
+                setY(scene.getHeight()/2);
             }
         });
         

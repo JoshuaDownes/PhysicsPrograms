@@ -22,6 +22,7 @@ public class Main extends Application{
     private Button info = new Button("INFO");
     private Object runningObject;
     private Stage primaryStage;
+    private GridPane options;
             
     @Override
     public void start(Stage primaryStage){
@@ -42,10 +43,11 @@ public class Main extends Application{
         
         bouncingBallStart.setOnAction((ActionEvent startElBall) ->{
             root = new Group();
-            Scene ballScene = new Scene(root, 500, 350);
+            Scene ballScene = new Scene(root, 700, 500);
             BouncingBall eBall = new BouncingBall(root, ballScene);
             sceneOptions(root, eBall.getCurrentAnimation(), new Text("Click on the ball to drag it around\n"
                     + "Collisions are elastic\nIf it is moving too fast, press R to reset."));
+            eBall.setOptions(options);
             primaryStage.setTitle("Elastic Ball");
             primaryStage.setScene(ballScene);
             primaryStage.show();
@@ -55,8 +57,8 @@ public class Main extends Application{
     }
     
     public void sceneOptions(Group root, Animation animation, Text infoText){
-        GridPane buttonPane = new GridPane();
-        buttonPane.add(quit, 0, 0);
+        options = new GridPane();
+        options.add(quit, 0, 0);
         quit.setOnAction((ActionEvent q)->{
             animation.stop();
             primaryStage.setScene(startingScene);
@@ -64,18 +66,18 @@ public class Main extends Application{
             primaryStage.show();
         });
         
-        buttonPane.add(info, 1, 0);
+        options.add(info, 1, 0);
         info.setOnMouseEntered((MouseEvent i)->{
-            buttonPane.add(infoText, 1, 1);
+            options.add(infoText, 10, 10);
         });
         info.setOnMouseExited((MouseEvent iExit)->{
-            buttonPane.getChildren().remove(infoText);
+            options.getChildren().remove(infoText);
         });
                 
         
-        root.getChildren().add(buttonPane);
-        buttonPane.setLayoutX(40);
-        buttonPane.setLayoutY(0);
+        root.getChildren().add(options);
+        options.setLayoutX(0);
+        options.setLayoutY(0);
     }
     
     public static void main(String[] args){
