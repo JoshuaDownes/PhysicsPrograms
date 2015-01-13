@@ -1,6 +1,6 @@
 
-
 import javafx.animation.Animation;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import miniMathProjects.SierpinskiTriangle;
 
 
 public class Main extends Application{
@@ -32,8 +33,10 @@ public class Main extends Application{
         GridPane grid = new GridPane();
         Text title = new Text("Physics Simulations\n Joshua Downes");
         Button bouncingBallStart = new Button("Elastic Ball");
+        Button sierpinskiTriangleButton = new Button("Sierpinski Triangle");
         grid.add(title, 0, 0);
         grid.add(bouncingBallStart,0,1);
+        grid.add(sierpinskiTriangleButton,0,2);
         
         startingScene = new Scene(grid, 500, 350);
         
@@ -46,13 +49,23 @@ public class Main extends Application{
             Scene ballScene = new Scene(root, 700, 500);
             BouncingBall eBall = new BouncingBall(root, ballScene);
             sceneOptions(root, eBall.getCurrentAnimation(), new Text("Click on the ball to drag it around\n"
-                    + "Collisions are elastic\nIf it is moving too fast, press R to reset.\n\nSimulation"
+                    + "Collisions are elastic\nIf ball(s) moving too fast, press R to reset.\n\nSimulation"
                     + " of conservation of momentum for elastic collisions"));
             eBall.setOptions(options);
             primaryStage.setTitle("Elastic Ball(s)");
             primaryStage.setScene(ballScene);
             primaryStage.show();
             
+        });
+        
+        sierpinskiTriangleButton.setOnAction((ActionEvent startSerpinski) ->{
+            root = new Group();
+            Scene sTriangleScene = new Scene(root, 700, 500);
+            SierpinskiTriangle sierpinskiTriangle = new SierpinskiTriangle(root, sTriangleScene);
+            sceneOptions(root,new Timeline(), new Text("Click for next generation\nRuns a max of 10 generations"));
+            primaryStage.setTitle("Sierpinski Triangle");
+            primaryStage.setScene(sTriangleScene);
+            primaryStage.show();
         });
         
     }
