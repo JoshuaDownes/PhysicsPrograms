@@ -49,7 +49,7 @@ public class CollisionController {
         //}    
     }
     
-    public void checkBoundaryCollisions(ObjectPhysics obj){
+    public void checkBoundaryCollisions(ObjectPhysics obj){ //THIS NEEDS TO BE TWEAKED A BIT
         if(obj.getY() + obj.getHeight()/2 >= currentScene.getHeight()){
             obj.setDy(-obj.getDy()*(currentScene.getHeight()/(obj.getY() + obj.getHeight()/2)) - obj.gravity);
             obj.setY(currentScene.getHeight() - obj.getHeight()/2);

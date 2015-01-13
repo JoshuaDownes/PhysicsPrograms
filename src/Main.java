@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import miniMathProjects.KochPyramid;
 import miniMathProjects.SierpinskiTriangle;
 
 
@@ -34,9 +35,11 @@ public class Main extends Application{
         Text title = new Text("Physics Simulations\n Joshua Downes");
         Button bouncingBallStart = new Button("Elastic Ball");
         Button sierpinskiTriangleButton = new Button("Sierpinski Triangle");
+        Button kochPyramidButton = new Button("Koch Pyramid");
         grid.add(title, 0, 0);
         grid.add(bouncingBallStart,0,1);
         grid.add(sierpinskiTriangleButton,0,2);
+        grid.add(kochPyramidButton,0,3);
         
         startingScene = new Scene(grid, 500, 350);
         
@@ -65,6 +68,16 @@ public class Main extends Application{
             sceneOptions(root,new Timeline(), new Text("Click for next generation\nRuns a max of 10 generations"));
             primaryStage.setTitle("Sierpinski Triangle");
             primaryStage.setScene(sTriangleScene);
+            primaryStage.show();
+        });
+        
+        kochPyramidButton.setOnAction((ActionEvent startKochPyramid) ->{
+            root = new Group();
+            Scene kPyramidScene = new Scene(root, 700, 500);
+            KochPyramid kochPyramid = new KochPyramid(root, kPyramidScene);
+            sceneOptions(root,new Timeline(), new Text("Koch Pyramid"));
+            primaryStage.setTitle("Koch Pyramid");
+            primaryStage.setScene(kPyramidScene);
             primaryStage.show();
         });
         
