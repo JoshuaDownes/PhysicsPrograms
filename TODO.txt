@@ -3,3 +3,7 @@
 - Clean up text and change info text
 
 - Edit README
+
+- Fix KOCH Pyramid
+
+- Tweak ball collisions and info explaining elasticity of collisions
